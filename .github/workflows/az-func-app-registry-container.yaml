@@ -16,6 +16,7 @@ env:
   IMAGE: azurefunctionsimage
   TAG: v1.0.1
   WORK_DIR: LocalFunctionsProject
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -28,16 +29,12 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CONTAINER_CREDS }}
-#     - run: az acr login --name '${{ env.REGISTRY_NAME }}'
-#     - run: |
-#           VERSION=${{ env.MAJOR_MINOR_VERSION }}.${{ github.run_number }}
-#           echo "IMAGE=${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:$VERSION" >> $GITHUB_ENV
-    - name: 'Docker Login'
-      uses: azure/docker-login@v1
+    - name: Login to ACR
+      uses: docker/login-action@v1
       with:
-#         login-server: ${{ env.REGISTRY }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.DOCKER_TOKEN }}
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.AZURE_CLIENT_ID }}
+        password: ${{ secrets.AZURE_CLIENT_SECRET }}
 
     - name: 'Compose Customized Docker Image'
       shell: bash
@@ -47,7 +44,7 @@ jobs:
         docker build -t ${{ env.IMAGE }} .
         docker push ${{ env.IMAGE }}
       env: 
-        IMAGE: ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
+        IMAGE: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
       working-directory: ${{ env.WORK_DIR }}
     - name: 'Run Azure Functions Container Action'
       uses: Azure/functions-container-action@v1
