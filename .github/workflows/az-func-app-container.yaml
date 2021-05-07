@@ -14,7 +14,7 @@ env:
   REGISTRY: docker
   NAMESPACE: rogerprz
   IMAGE: azurefunctionsimage
-  TAG: v1.0.0
+  TAG: v1.0.1
   WORK_DIR: LocalFunctionsProject
 jobs:
   build-and-deploy:
