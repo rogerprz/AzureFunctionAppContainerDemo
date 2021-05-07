@@ -42,7 +42,7 @@ jobs:
         # ${{ env.REGISTRY }}/ ${{ env.REGISTRY }}/
         # If your function app project is not located in your repository's root
         # Please change the path to your directory for docker build
-        docker build . -t ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
+        docker build -t ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }} .
         docker push ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
       working-directory: ${{ env.WORK_DIR }}
     - name: 'Run Azure Functions Container Action'
