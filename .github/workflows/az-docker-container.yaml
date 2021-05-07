@@ -28,36 +28,12 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CONTAINER_CREDS }}
-#     - run: az acr login --name '${{ env.REGISTRY_NAME }}'
-#     - run: |
-#           VERSION=${{ env.MAJOR_MINOR_VERSION }}.${{ github.run_number }}
-#           echo "IMAGE=${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:$VERSION" >> $GITHUB_ENV
-    - name: 'Docker Login'
-      uses: azure/docker-login@v1
-      with:
-#         login-server: ${{ env.REGISTRY }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.DOCKER_TOKEN }}
-
-    - name: 'Compose Customized Docker Image'
-      shell: bash
-      run: |
-        # If your function app project is not located in your repository's root
-        # Please change the path to your directory for docker build ${{ env.REGISTRY }}/
-        docker build -t ${{ env.IMAGE }} .
-        docker push ${{ env.IMAGE }}
-      env: 
-        IMAGE: ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
-      working-directory: ${{ env.WORK_DIR }}
     - name: 'Run Azure Functions Container Action'
       uses: Azure/functions-container-action@v1
       id: fa
       with:
         app-name: valet-container-app
         image: ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
-    #- name: 'use the published functionapp url in upcoming steps'
-    #  run: |
-    #    echo "${{ steps.fa.outputs.app-url }}"
 
     - name: Azure logout
       run: |
