@@ -38,16 +38,17 @@ jobs:
     - name: 'Compose Customized Docker Image'
       shell: bash
       run: |
+        # ${{ env.REGISTRY }}/ ${{ env.REGISTRY }}/
         # If your function app project is not located in your repository's root
         # Please change the path to your directory for docker build
-        docker build . -t ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
-        docker push ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
+        docker build . -t ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
+        docker push ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
     - name: 'Run Azure Functions Container Action'
       uses: Azure/functions-container-action@v1
       id: fa
       with:
         app-name: valet-container-app
-        image: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
+        image: ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
     #- name: 'use the published functionapp url in upcoming steps'
     #  run: |
     #    echo "${{ steps.fa.outputs.app-url }}"
