@@ -28,7 +28,10 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CONTAINER_CREDS }}
-
+#     - run: az acr login --name '${{ env.REGISTRY_NAME }}'
+#     - run: |
+#           VERSION=${{ env.MAJOR_MINOR_VERSION }}.${{ github.run_number }}
+#           echo "IMAGE=${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:$VERSION" >> $GITHUB_ENV
     - name: 'Docker Login'
       uses: azure/docker-login@v1
       with:
