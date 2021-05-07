@@ -15,6 +15,7 @@ env:
   NAMESPACE: rogerprz
   IMAGE: azurefunctionsimage
   TAG: v1.0.0
+  WORK_DIR: LocalFunctionsProject
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -41,7 +42,7 @@ jobs:
         # ${{ env.REGISTRY }}/ ${{ env.REGISTRY }}/
         # If your function app project is not located in your repository's root
         # Please change the path to your directory for docker build
-        docker build . -t ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
+        docker build . -t ${{ env.WORK_DIR }}/${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
         docker push ${{ env.NAMESPACE }}/${{ env.IMAGE }}:${{ env.TAG }}
     - name: 'Run Azure Functions Container Action'
       uses: Azure/functions-container-action@v1
