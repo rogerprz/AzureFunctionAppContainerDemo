@@ -34,7 +34,7 @@ jobs:
       with:
         login-server: contoso.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+        password: ${{ secrets.DOCKER_TOKEN }}
 
     - name: 'Compose Customized Docker Image'
       shell: bash
