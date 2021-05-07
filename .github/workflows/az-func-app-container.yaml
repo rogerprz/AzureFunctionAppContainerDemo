@@ -8,10 +8,8 @@
 
 name: Linux_Container_Workflow
 
-on:
-  push:
-    branches:
-    - master
+on: workflow_dispatch
+
 env: 
   REGISTRY: docker
   NAMESPACE: rogerprz
